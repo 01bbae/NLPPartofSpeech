@@ -85,7 +85,7 @@ One area that the Brill tagger has trouble is managing the multitude of rules an
 
 Above we can see that certain rules only apply under certain conditions sort of like nested IF-ELSE statements. If a node's rule is satisfied, then the word is passed down the except branch and if it is not satisified, it is passed through to the if-not branch. The last node where the case was satisfied is the tag of the word. By using these exception rules the dependency problem is minimized. There are more complexities when it comes to organizing these rules, but we won't get into the details here.
 
-![RDRPOSTagger](images\RDRPOSTagger.png)
+![RDRPOSTagger](images/RDRPOSTagger.png)
 
 The overall structure of the tagger is very similar to the Brill tagger but with a slightly modified rule section.
 
