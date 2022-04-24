@@ -61,21 +61,39 @@ This is pretty good but how much can we get close to a 100% accuracy? And what k
 Lets compare 2 techniques:
 ## Rule Based
 
-There are 
-
 ### Brill tagger
-Lets look at a popular rule based PoS tagger created by Eric Brill in 1992 for his PhD thesis[^2]. He acknowleges that statistical taggers are easier to craft than rule-based ones which are also not very robust, but he introduces a type of tagger that is lightweight, only needs a small set of rules, and can be easily improved by changing the rules rather than statistical methods that often have obscure parameters.
+Lets look at a popular rule based PoS tagger created by Eric Brill at MIT in 1992 for his PhD thesis[^2]. He acknowleges that statistical taggers are easier to craft than rule-based ones which are also not very robust, but he introduces a type of tagger that is lightweight, only needs a small set of rules, and can be easily improved by changing the rules rather than statistical methods that often have obscure parameters.
 
 It starts off by applying some set of initial tagging rules, that dont have any contextual information, to the corpus. For example, one of the rules could be that anything ending with an -ous is an adjective. Then, the labeled corpus is compared to a prelabeled corpus and iteratively improved. Each word keeps track of how many times the word had some tag _a_ but should have gotten tag _b_. A rule (a.k.a patch) from a set of rules (a.k.a. patch template) is picked that reduces the number of errors the most.
 
+![Brill Architecture](images/Brill.png)
+
 Let's have a hypothetical scenario to describe how it works. Let's say you have 200 words and the initial tagger mislabels 90 words as nouns when they should be verbs. Then, a patch is applied that says something like if the word is between two nouns it is a verb (e.g. Man throws ball). After applying this rule, 70 out of the 90 mislabeled words are correctly labeled, but there are 8 new errors that should have stayed the same tag but switched erroneously. There is 62 net decrease in errors and this process is repeated to decrease net errors. This results in a list of patches that describe the grammatical rules of the language, which is portable to other copora in other genres.
 
-The result is that using this method resulted in around a .5% less accurate performance at around 94.9% than statistical taggers made by DeRose in 1988, but there was some positive side effects using rule-based taggers from their statistical counterparts. Not only were they more lightweight, Idioms were automatically and correctly identified by the Brill tagger when statistical taggers needed to be fine tuned to account for these irregularities in grammar.
+
+Using this method, while results were not 100% representative of a real one to one test against other methods, resulted in around a .5% less accurate performance at around 94.9% than statistical taggers made by DeRose in 1988, but there was some positive side effects using rule-based taggers from their statistical counterparts. Not only were they more lightweight, Idioms were automatically and correctly identified by the Brill tagger when statistical taggers needed to be fine tuned to account for these irregularities in grammar.
 
 This paper is stil highly cited today as a more classical approach to part of speech tagging and ontology matching. Brill also improves upon his work on his 1994 paper [^3].
+
+### RDRPOSTagger
+
+This paper was written in 2014 by faculty at Vietnam National University, Hanoi and provides some improvements to Brill's work. 
+
+One area that the Brill tagger has trouble is managing the multitude of rules and their interactions with one another. When you have hundreds of rules, you can't really know which ones affect different rules, so there is this dependency problem that needs to be solved. RDRPOSTagger uses a Single Classification Ripple Down Rules (SCRDR) tree, which is a way of controlling how different rules affect other rules by organizing them into a tree like structure.
+
+![SCRDR tree](images/SCRDR.png)
+
+Above we can see that certain rules only apply under certain conditions sort of like nested IF-ELSE statements. If a node's rule is satisfied, then the word is passed down the except branch and if it is not satisified, it is passed through to the if-not branch. The last node where the case was satisfied is the tag of the word. By using these exception rules the dependency problem is minimized. There are more complexities when it comes to organizing these rules, but we won't get into the details here.
+
+![RDRPOSTagger](images\RDRPOSTagger.png)
+
+The overall structure of the tagger is very similar to the Brill tagger but with a slightly modified rule section.
+
+The results overall show a 96.49% accuracy on a WSJ Treebank Corpus, 0.03% lead over a Markov model called TnT by Thorsten Brants and 0.04% over Brill's. This model was also tested on a Vietnamese Treebank and achieved 92.59%, better than a SVM based PoS tagging system, showing its ability to adapt to multiple languages and still retain its easy to configure and fast properties.
+
 ## Statistical Methods
 
-Statistical methods are much more prevasive in this era especially with the boom of neural networks and transformers.
+Statistical methods are much more prevasive in this era especially with the boom of deep learning and transformers.
 
 ---
 
