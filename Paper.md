@@ -1,4 +1,4 @@
-# Comparing Parts of Speech Taggers in Rule-based and Statistical Domains
+# A Comparison of Parts of Speech Taggers in Rule-based and Statistical Methods
 
 ## Background
 
@@ -61,8 +61,11 @@ This is pretty good but how much can we get close to a 100% accuracy? And what k
 Lets compare 2 techniques:
 ## Rule Based
 
+### TAGGIT
+TAGGIT[^5] was the first large attempt at a PoS tagger system with 71 tags and 3,300 rules created by Greene and Rubin in 1971. It still left a lot to be desired because it left 23% of the words in the Brown corpus ambiguous.
+
 ### Brill tagger
-Lets look at a popular rule based PoS tagger created by Eric Brill at MIT in 1992 for his PhD thesis[^2]. He acknowleges that statistical taggers are easier to craft than rule-based ones which are also not very robust, but he introduces a type of tagger that is lightweight, only needs a small set of rules, and can be easily improved by changing the rules rather than statistical methods that often have obscure parameters.
+Lets look at one of the most popular rule based PoS tagger created by Eric Brill at MIT in 1992 for his PhD thesis[^2]. He acknowleges that statistical taggers are easier to craft than rule-based ones which are also not very robust, but he introduces a type of tagger that is lightweight, only needs a small set of rules, and can be easily improved by changing the rules rather than statistical methods that often have obscure parameters.
 
 It starts off by applying some set of initial tagging rules, that dont have any contextual information, to the corpus. For example, one of the rules could be that anything ending with an -ous is an adjective. Then, the labeled corpus is compared to a prelabeled corpus and iteratively improved. Each word keeps track of how many times the word had some tag _a_ but should have gotten tag _b_. A rule (a.k.a patch) from a set of rules (a.k.a. patch template) is picked that reduces the number of errors the most.
 
@@ -77,7 +80,7 @@ This paper is stil highly cited today as a more classical approach to part of sp
 
 ### RDRPOSTagger
 
-This paper was written in 2014 by faculty at Vietnam National University, Hanoi and provides some improvements to Brill's work. 
+This paper[^4] was written in 2014 by faculty at Vietnam National University, Hanoi and provides some improvements to Brill's work. 
 
 One area that the Brill tagger has trouble is managing the multitude of rules and their interactions with one another. When you have hundreds of rules, you can't really know which ones affect different rules, so there is this dependency problem that needs to be solved. RDRPOSTagger uses a Single Classification Ripple Down Rules (SCRDR) tree, which is a way of controlling how different rules affect other rules by organizing them into a tree like structure.
 
@@ -95,6 +98,8 @@ The results overall show a 96.49% accuracy on a WSJ Treebank Corpus, 0.03% lead 
 
 Statistical methods are much more prevasive in this era especially with the boom of deep learning and transformers.
 
+A big part of PoS tagging was done by  
+
 ---
 
 ## References:
@@ -104,3 +109,7 @@ Statistical methods are much more prevasive in this era especially with the boom
 [^2]: https://dl.acm.org/doi/pdf/10.3115/974499.974526
 
 [^3]: https://arxiv.org/pdf/cmp-lg/9406010.pdf
+
+[^4]: https://aclanthology.org/E14-2005.pdf
+
+[^5]: https://books.google.com/books?id=yl6AnaKtVAkC&lpg=PA219&ots=_VWd78CFIi&dq=%20part%20of%20speech%20tagging&lr&pg=PA223#v=onepage&q=part%20of%20speech%20tagging&f=false
