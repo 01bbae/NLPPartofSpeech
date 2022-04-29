@@ -14,7 +14,7 @@ Since the 1st C. BCE, there has been 8 ways to catagorize parts of speech for Eu
 - Adverbs
 - Pronouns
 - Prepositions
-- Conjuctions
+- Conjunctions
 - Interjections
 
 There are many sub catagories but we won't go into them here. For more more information you can check out Speech and Language Processing (3rd ed. draft) by Jurafsky and Martin, Chapter 8 [^1].
