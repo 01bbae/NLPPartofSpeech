@@ -102,7 +102,18 @@ Statistical methods are much more prevasive in this era especially with the boom
 
 ## HMM Tagger
 
-So a common model to apply statisical methods to determine Part of Speech tags are Hidden Markov Model.
+A common model to apply statisical methods to determine Part of Speech tags are Hidden Markov Model (HMM).
+
+A hidden markov model consists of 4 parts.
+
+1. Hidden States
+2. Observable States
+3. Transitional Probabilities
+4. Emission Probabilities
+
+They have similar in nature to a finite state machine.
+
+To describe how a HMM works, lets suppose that the hidden state represent weather and the observable states represented someone's mood that day.
 
 ---
 
