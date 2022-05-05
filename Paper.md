@@ -113,7 +113,8 @@ A hidden markov model consists of 4 parts.
 
 They have similar in nature to a finite state machine.
 
-To describe how a HMM works, lets suppose that the hidden state represent weather and the observable states represented someone's mood that day.
+Tangent: To discribe how a HMM works, Lets suppose that the hidden states represent the weather and the observable states represent the
+The hidden states in this scenario represent the PoS tags and the observable states are the words in a sequence. The transitional probabilities are that are between each hidden state node that define the probabilistic properties to switch between those states. The emission probability is the probabilities that a hidden state will display a certain observable state.
 
 ---
 
