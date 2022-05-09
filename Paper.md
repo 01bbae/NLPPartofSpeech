@@ -96,11 +96,15 @@ The overall structure of the tagger is very similar to the Brill tagger but with
 
 The results overall show a 96.49% accuracy on a WSJ Treebank Corpus, 0.03% lead over a Markov model called TnT by Thorsten Brants and 0.04% over Brill's. This model was also tested on a Vietnamese Treebank and achieved 92.59%, better than a SVM based PoS tagging system, showing its ability to adapt to multiple languages and still retain its easy to configure and fast properties.
 
+### Pros and Cons of Rule based tagging
+
+The reason why rule based methods are cited in almost every PoS tagging paper is because their human interpretablity is second to none. It is built on a system that humans can manipulate in ways that make sense to us. This is important because human language is fundamentally built on a set of rules that we agreed upon as the correct way. The downsides of rule based tagging is that, to sufficently describe all the intricacies of a language, it would require tens or maybe hundreds thousands of rules that are handwritten with no automatation. While RDRPOSTagger tries to solve the problem of dependency, there is also the fact that there are a lot of rules that may conflict with each other. The accuracy of these systems are the product of these limitations as they are not that great compared to other methods. If human limitations were not a problem, then this would be the most prescriptive method to use, but unfortunately this is not the case.
+
 ## Statistical Methods
 
-Statistical methods are much more prevasive in this era especially with the boom of deep learning and transformers.
+Statistical methods are the precursor to the boom of deep learning and transformers we have today. By using some math, we are able to automate and squeeze a lot of performance out of these systems.
 
-## HMM Tagger
+### HMM Tagger
 
 A common model to apply statisical methods to determine Part of Speech tags are Hidden Markov Model (HMM).
 
@@ -111,10 +115,26 @@ A hidden markov model consists of 4 parts.
 3. Transitional Probabilities
 4. Emission Probabilities
 
-They have similar in nature to a finite state machine.
+They are similar in nature to a finite state machine.
 
-Tangent: To discribe how a HMM works, Lets suppose that the hidden states represent the weather and the observable states represent a person's mood on a given day.
-The hidden states in this scenario represent the PoS tags and the observable states are the words in a sequence. The transitional probabilities are that are between each hidden state node that define the probabilistic properties to switch between those states. The emission probability is the probabilities that a hidden state will display a certain observable state.
+Tangent: To discribe how a HMM works, Lets suppose that you are told to guess the weather within a far away city with only the air temperature and the time of day there. The possible types of weather are: sunny, cloudy, or raining. Lets say that the air temperature is 60 degrees F (15 degrees C) at 3pm. There is high probability that the weather outside is cloudy but a low probability that it is sunny or cloudy (but not no probability), so you predict that it is cloudy outside. You used some observable information to determine which out of the weather states were most probable and this is what an HMM does.
+
+![Hidden Markov Model](images/hmm.png)
+
+1. The Hidden States (in green) are the states that are the possible outputs of the model's prediction and that are not viewed directly. In PoS tagging this would be the actually PoS tags like NN or VB.
+
+
+2. The Observable States (in blue), like it's name suggests, is the observable part of the model. It is like the data that is output given a particular hidden state. With sunny weather, we might observe temperatures in the 80s F (26.6 C). We might also see cold temperatures even when sunny, so we have to include those as well, and it becomes all the possible observable states no matter how unlikely it may be. In PoS tagging these would be words with the particular PoS of the connected hidden state. 
+
+
+3. The Transitional Probabilities (arrows pointing between each hidden states) are the probabilities that define the possiblity of switching from a current (or initial) hidden state to another hidden state. An example is the probability of going from a sunny Monday to a rainy Tuesday regardless of any given data. In the PoS scenario, it would be how likely it is to get a verb after a noun in a sequence of words.
+
+
+4. The Emission Probabilities (arrows pointing from hidden state to observable state) are the probabilities that given a certain hidden state, how likely is it to output that observable state. In PoS tagging, this would be given a part of speech like a verb what are the probabilities of a specific word being observed.
+
+![HMM Equation](images/Equation.png)
+
+
 
 ---
 
