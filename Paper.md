@@ -106,7 +106,9 @@ Statistical methods are the precursor to the boom of deep learning and transform
 
 ### HMM Tagger
 
-A common model to apply statisical methods to determine Part of Speech tags are Hidden Markov Model (HMM).
+A common model to apply statisical methods to determine Part of Speech tags are with a Hidden Markov Model (HMM) using Maximum Likelihood Estimation (MLE).
+
+#### Hidden Markov Model Architecture
 
 A hidden markov model consists of 4 parts.
 
@@ -132,9 +134,34 @@ Tangent: To discribe how a HMM works, Lets suppose that you are told to guess th
 
 4. The Emission Probabilities (arrows pointing from hidden state to observable state) are the probabilities that given a certain hidden state, how likely is it to output that observable state. In PoS tagging, this would be given a part of speech like a verb what are the probabilities of a specific word being observed.
 
+
+#### Maximum Likelihood Estimation
+
+Now we understand the structure of the HMM, lets see how we are able to utilize it using Maximum Likelihood Estimation.
+
+MLE is a way of finding the best possible model that fits the data.
+
+Generally speaking, for MLE, we have a parameter we adjust to fit a probability density function to a set of given data points and the parameter that matches the data distribution the closest is considered the most optimal parameter.
+
+![MLE](images/MLE.png)
+
+In the case of this HMM, we have this equation to represent the best model to predict PoS given a sequence of words and its corresponding tags.
+
 ![HMM Equation](images/Equation.png)
 
+Here, x represents the sequence of words in a corpus and y represents the sequence of corresponding PoS tags for x.
 
+This equation is saying the joint probability of these two sequences x and y is equal to the product of this "q" term and this "e" term (We will go more in depth on these two letters).
+
+The "q" term in the equation represents the Transitional Probabilities that we saw in the HMM earlier. This term describes the probability of having a certain tag y<sub>i</sub> given the two previous tags in the sequence y<sub>i-1</sub> and y<sub>i-2</sub> . Note that tags are just hidden states within a HMM in the context of PoS taggers, so these probabilities can be represented as the Transitional Probabilities.
+
+The "e" term in the equation represents the Emission Probabilities. The term says that "e" is the probability of a certain word x<sub>i</sub> given the corresponding tag y<sub>i</sub>. Here we are trying to find a word that is likely to be outputed given its correct tag.
+
+To find the joint probability of these we take the products of each "e" and "q" terms for all n words and tags in the sequence.
+
+![argmax HMM Equation](images/argmax.png)
+
+The argmax of this joint probability is the best prediction that the model has come up with.
 
 ---
 
