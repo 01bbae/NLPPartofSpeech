@@ -6,7 +6,7 @@ Parts of speech (referred to as PoS) are labels to grammatically catagorize word
 
 Note: A misconceptions with parts of speech are that you label the words according to their meaning, like nouns being words that represent objects. While meaning does have a very high correlation on how words are catagorized, this is not the real way of determining parts of speech for a particular word. Part of speech is supposed to represent _grammatical_ relationships rather than _semantic_ ones.
 
-Since the 1st C. BCE, there has been 8 ways to catagorize parts of speech for European languages that are still mostly true for English to this day.
+Since the 1st C. BCE, there has been 8 main ways to catagorize parts of speech for European languages that are still mostly true for English to this day.
 
 - Nouns
 - Adjectives
@@ -17,7 +17,7 @@ Since the 1st C. BCE, there has been 8 ways to catagorize parts of speech for Eu
 - Conjunctions
 - Interjections
 
-There are many sub catagories but we won't go into them here. For more more information you can check out Speech and Language Processing (3rd ed. draft) by Jurafsky and Martin, Chapter 8 [^1].
+There are many sub catagories but we won't go into them here.
 
 ### Why is part of speech tagging useful?
 
@@ -149,19 +149,29 @@ In the case of this HMM, we have this equation to represent the best model to pr
 
 ![HMM Equation](images/Equation.png)
 
-Here, x represents the sequence of words in a corpus and y represents the sequence of corresponding PoS tags for x.
+Here, x represents the sequence of words and y represents the sequence of corresponding PoS tags for x.
 
-This equation is saying the joint probability of these two sequences x and y is equal to the product of this "q" term and this "e" term (We will go more in depth on these two letters).
+This equation is saying the joint probability of these two sequences x and y are equal to the product of this "q" term and this "e" term (We will go more in depth on these two letters). Having the maximum joint probability tells us that those sequence of words and tags are the most likely to correlate to each other, so that is our goal.
 
-The "q" term in the equation represents the Transitional Probabilities that we saw in the HMM earlier. This term describes the probability of having a certain tag y<sub>i</sub> given the two previous tags in the sequence y<sub>i-1</sub> and y<sub>i-2</sub> . Note that tags are just hidden states within a HMM in the context of PoS taggers, so these probabilities can be represented as the Transitional Probabilities.
+First, lets consider we have a list of tags availible to us to label words which we will arbitrarily call the "tag pool" and a training set of words that are prelabeled with tags we will call the "dictionary". Now we can jump into the calculations.
 
-The "e" term in the equation represents the Emission Probabilities. The term says that "e" is the probability of a certain word x<sub>i</sub> given the corresponding tag y<sub>i</sub>. Here we are trying to find a word that is likely to be outputed given its correct tag.
+The "q" term in the equation represents the Transitional Probabilities that we saw in the HMM earlier. This term describes the probability of having a certain tag y<sub>i</sub> given the two previous tags in the sequence y<sub>i-1</sub> and y<sub>i-2</sub> . In other words, from our "tag pool", what is the probability of having a certain 3rd tag come after tag 1 and tag 2 in the sequence. Note that tags are just hidden states within a HMM, in the context of PoS taggers, so these probabilities describe how likely you are to go from one hidden state to another a.k.a Transitional Probabilities.
 
-To find the joint probability of these we take the products of each "e" and "q" terms for all n words and tags in the sequence.
+The "e" term in the equation represents the Emission Probabilities. The term says that "e" is the probability of a certain word x<sub>i</sub> given the corresponding tag y<sub>i</sub>. In simpler terms, from our "dictionary", what is the chance of having a certain word like "dog" show up when the tag is a noun. Here we are trying to find words that are likely to have a given tag.
+
+To find the joint probability of these we take the products of each "e" and "q" terms for all n words and tags in the sequence, x and y.
 
 ![argmax HMM Equation](images/argmax.png)
 
-The argmax of this joint probability is the best prediction that the model has come up with.
+The argmax of this joint probability is the best prediction that the model has come up with of these x and y sequences complimenting each other.
+
+![Viterbi Algorithm](images/viterbi.gif)
+
+A fun note is that since there can be around 50 tags in a typical "tag pool" and thousands of words in the prelabeled training set, the time complexity can be very costly, but there is a clever way to drop the unnecessary stuff using the Viterbi Algorithm.
+
+This chains the sequences with the highest probabilities and drops all the other probabilities to go from O(tags^length of x) to O(length of x*tags^2) time complexity.
+
+
 
 ---
 
